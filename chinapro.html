@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script src="./js/echarts.min.js"></script>
+    <script src="./js/jquery-1.9.1.min.js"></script>
+    <script src="./js/china.js"></script>
+    <script src="./js/xin1_jiang1_a1_ke4_su1_di4_qu1.js"></script>
+    <style>
+        *{margin:0;padding:0}
+        html,body{
+            width:100%;
+            height:100%;
+        }
+        #main{
+              width:600px;
+              height:450px;
+              margin: 150px auto;
+              border:1px solid #ddd;
+          }
+        /*默认长宽比0.75*/
+    </style>
+</head>
+<body>
+    <div id="main">
+ 
+    </div>
+    <script type="text/javascript">
+    	var privenceIndex = {
+    		'北京' : '110000',
+			'天津' : '120000',
+			'河北' : '130000',
+			'山西' : '140000',
+			'内蒙古' : '150000',
+			'辽宁' : '210000',
+			'吉林' : '220000',
+			'黑龙江' : '230000',
+			'上海' : '310000',
+			'江苏' : '320000',
+			'浙江' : '330000',
+			'安徽' : '340000',
+			'福建' : '350000',
+			'江西' : '360000',
+			'山东' : '370000',
+			'河南' : '410000',
+			'湖北' : '420000',
+			'湖南' : '430000',
+			'广东' : '440000',
+			'广西' : '450000',
+			'海南' : '460000',
+			'重庆' : '500000',
+			'四川' : '510000',
+			'贵州' : '520000',
+			'云南' : '530000',
+			'西藏' : '540000',
+			'陕西' : '610000',
+			'甘肃' : '620000',
+			'青海' : '630000',
+			'宁夏' : '640000',
+			'新疆' : '650000',
+			'台湾' : '710000',
+			'香港' : '810000',
+			'澳门' : '820000'
+    	}
+        var dataList=[
+            {name:"南海诸岛",value:0},
+            {name: '北京', value: 168},
+            {name: '天津', value: 38},
+            {name: '上海', value: 169},
+            {name: '重庆', value: 247},
+            {name: '河北', value: 96},
+            {name: '河南', value: 422},
+            {name: '云南', value: 91},
+            {name: '辽宁', value: 63},
+            {name: '黑龙江', value: 80},
+            {name: '湖南', value: 389},
+            {name: '安徽', value: 297},
+            {name: '山东', value: 206},
+            {name: '新疆', value: 18},
+            {name: '江苏', value: 202},
+            {name: '浙江', value: 599},
+            {name: '江西', value: 286},
+            {name: '湖北', value: 7153},
+            {name: '广西', value: 100},
+            {name: '甘肃', value: 35},
+            {name: '山西', value: 47},
+            {name: '内蒙古', value: 23},
+            {name: '陕西', value: 101},
+            {name: '吉林', value: 17},
+            {name: '福建', value: 144},
+            {name: '贵州', value: 29},
+            {name: '广东', value: 535},
+            {name: '青海', value: 9},
+            {name: '西藏', value: 1},
+            {name: '四川', value: 207},
+            {name: '宁夏', value: 26},
+            {name: '海南', value: 62},
+            {name: '台湾', value: 10},
+            {name: '香港', value: 13},
+            {name: '澳门', value: 7}
+        ]
+        var myChart = echarts.init(document.getElementById('main'));
+        function randomValue() {
+            return Math.round(Math.random()*1000);
+        }
+        option = {
+            title:{
+                text:'2月1日全国各省确诊人数'
+            },
+            tooltip: {
+                    formatter:function(params,ticket, callback){
+                        return params.seriesName+'<br />'+params.name+'：'+params.value
+                    }//数据格式化
+                },
+            visualMap: {
+                min: 0,
+                max: 1500,
+                left: 'left',
+                top: 'bottom',
+                text: ['高','低'],//取值范围的文字
+                inRange: {
+                    color: ['#FFFFFF', '#FF0000']//取值范围的颜色
+                },
+                show:true//图注
+            },
+            geo: {
+                map: 'china',
+                roam: false,//不开启缩放和平移
+                zoom:1.23,//视角缩放比例
+                label: {
+                    normal: {
+                        show: true,
+                        fontSize:'10',
+                        color: 'rgba(0,0,0,0.7)'
+                    }
+                },
+                itemStyle: {
+                    normal:{
+                        borderColor: 'rgba(0, 0, 0, 0.2)'
+                    },
+                    emphasis:{
+                        areaColor: '#F3B329',//鼠标选择区域颜色
+                        shadowOffsetX: 0,
+                        shadowOffsetY: 0,
+                        shadowBlur: 20,
+                        borderWidth: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            },
+            series : [
+                {
+                    name: '感染人数',
+                    type: 'map',
+                    geoIndex: 0,
+                    data:dataList
+                }
+            ]
+        };
+		backTool = {//定义返回按钮
+	        feature: {
+	            myTool: {
+	                show: true,
+	                title: '返回',
+	                //icon: 'image://http://echarts.baidu.com/images/favicon.png',
+	                icon: 'image://./icon/icon.png',
+	                onclick: function (){
+		            	var tmpOption = myChart.getOption();
+      					tmpOption.title[0].text = '2月1日全国各省确诊人数';//need update
+		      			tmpOption.geo[0].map = 'china';//切换回中国地图
+		      			tmpOption.toolbox[0].feature.myTool.show = false//删除返回按钮
+		      			tmpOption.series[0].data = dataList//更新为全国数据
+		      			myChart.setOption(tmpOption);
+	                }
+	            }
+	        }
+	    };
+        myChart.setOption(option);
+        myChart.on('click', function (params) {
+            //alert(params.name);
+      		console.log(params)
+/*  使用js更新demo
+            if(params.name == '新疆'){
+            	var tmpOption = myChart.getOption();
+            	console.log(myChart.getOption())
+      			tmpOption.geo[0].map = '阿克苏地区';
+      			console.log(tmpOption)
+      			myChart.setOption(tmpOption);
+      			console.log(myChart.getOption())
+            }
+*/
+			var geojsonURL = './geojson/'+ privenceIndex[params.name] + '_geojson_full.json'
+
+      		console.log(geojsonURL)
+        	$.get(geojsonURL,function(geojson) {
+        		echarts.registerMap(params.name,geojson)
+            	var tmpOption = myChart.getOption();
+      			tmpOption.title[0].text = params.name+'确诊人数';
+      			tmpOption.geo[0].map = params.name;//切换地图
+      			tmpOption.toolbox = backTool//添加返回按钮
+      			tmpOption.series[0].data = []//更新省内数据
+      			myChart.setOption(tmpOption);
+
+      			console.log(myChart.getOption())
+        	})
+            
+        });
+ 
+      /*  setTimeout(function () {
+            myChart.setOption({
+                series : [
+                    {
+                        name: '信息量',
+                        type: 'map',
+                        geoIndex: 0,
+                        data:dataList
+                    }
+                ]
+            });
+        },1000)*/
+    </script>
+</body>
+</html>
